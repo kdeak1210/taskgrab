@@ -65,7 +65,7 @@ export default {
   //   }
   // }
 
-  createTask: (params) => {
+  submitTask: (params) => {
     return (dispatch) => {
       return dispatch(postRequest('/api/task', params, constants.TASK_CREATED))
     }

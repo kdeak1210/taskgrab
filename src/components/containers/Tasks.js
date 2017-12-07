@@ -40,7 +40,7 @@ class Tasks extends Component {
           ? null
           : this.props.tasks.all.map((task, i) => {
             return (
-              <li key={task.id}>{task.title}</li>
+              <li key={task.id}>{task.title}, {task.category}</li>
             )
           })
         }
