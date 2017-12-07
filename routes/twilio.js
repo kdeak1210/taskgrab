@@ -9,6 +9,7 @@ router.get('/task', (req, res) => {
 })
 
 router.post('/task', (req, res) => {
+  console.log('TWILIO: ' + JSON.stringify(req.body))
   res.send('hello twilio get task')
 })
 
