@@ -19,7 +19,7 @@ router.post('/task', (req, res) => {
     description: message
   }
 
-  controllers.task.post(task, false)
+  controllers.task.create(task, false)
   .then((result) => {
     console.log('SUCCESS: ' + JSON.stringify(result))    
     res.send('Hello!')
