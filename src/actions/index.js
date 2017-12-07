@@ -9,7 +9,7 @@ const getRequest = (path, params, actionType) => {
 
     APIManager.get(path, params)
     .then((response) => {
-      console.log('GET: ' + JSON.stringify(response))
+      //console.log('GET: ' + JSON.stringify(response))
       const payload = response.results || response.result // backend returns plural sometimes
 
       dispatch({
@@ -18,7 +18,7 @@ const getRequest = (path, params, actionType) => {
       })
     })
     .catch((err) => {
-      console.log('ERR: ' + JSON.stringify(err))
+      //console.log('ERR: ' + JSON.stringify(err))
 
     })
 }
@@ -28,7 +28,7 @@ const postRequest = (path, params, actionType) => {
     
     APIManager.post(path, params)
     .then((response) => {
-      console.log('POST: ' + JSON.stringify(response))
+      //console.log('POST: ' + JSON.stringify(response))
       const payload = response.results || response.result
       
       dispatch({
@@ -37,7 +37,7 @@ const postRequest = (path, params, actionType) => {
       })
     })
     .catch((err) => {
-      console.log('ERR: ' + JSON.stringify(err))
+      //console.log('ERR: ' + JSON.stringify(err))
 
     })
 }
@@ -55,6 +55,13 @@ export default {
     return {
       type: constants.TASKS_RECEIVED,
       payload: tasks
+    }
+  },
+
+  selectCategory: (category) => {
+    return {
+      type: constants.CATEGORY_SELECTED,
+      payload: category
     }
   },
 
