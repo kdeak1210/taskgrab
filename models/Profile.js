@@ -8,7 +8,7 @@ const ProfileSchema = mongoose.Schema({
   timestamp: {type: Date, default: Date.now()}
 })
 
-ProfileSchema.methods.summary = () => {
+ProfileSchema.methods.summary = function() {
   const summary = {
     username: this.username,
     phone: this.phone,

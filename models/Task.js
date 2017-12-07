@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const TaskSchema = mongoose.Schema({
+const TaskSchema = new mongoose.Schema({
   profile: {type: mongoose.SchemaTypes.Mixed, default: {}},
   title: {type: String, default: ''},
   category: {type: String, default:''},
@@ -8,7 +8,7 @@ const TaskSchema = mongoose.Schema({
   timestamp: {type: Date, default: Date.now()}
 })
 
-TaskSchema.methods.summary = () => {
+TaskSchema.methods.summary = function() {
   const summary = {
     profile: this.profile,
     title: this.title,
