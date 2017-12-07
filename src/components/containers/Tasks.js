@@ -5,14 +5,19 @@ import actions from '../../actions'
 import { connect } from 'react-redux'
 
 class Tasks extends Component {
+
   componentDidMount(){
-    APIManager.get('/api/task', null)
-    .then((response) => {
-      //console.log(JSON.stringify(response))
-      this.props.tasksReceived(response.results)
+    // START LOADING
+
+    /* From the actions, this now returns a promise, so we can do
+    some additional handling on the front end (outside of acitons file) */
+    this.props.fetchTasks(null)
+    .then((results) => {
+      // STOP LOADING
     })
     .catch((err) => {
-      alert(err)
+      // STOP LOADING
+      alert('FetchTasks error!!!')
     })
   }
 
@@ -20,7 +25,8 @@ class Tasks extends Component {
     console.log('CREATE TASK: ' + JSON.stringify(task))
     APIManager.post('/api/task', task)
     .then((response) => {
-      console.log(JSON.stringify(response))      
+      //console.log(JSON.stringify(response))
+      this.props.taskCreated(response.result)
     })
     .catch((err) => {
       alert(err)
@@ -30,7 +36,17 @@ class Tasks extends Component {
   render(){
     return(
       <div>
-        TASKS CONTAINER
+        <h2>Tasks ---</h2>
+        <ol>
+        { (this.props.tasks.all == null)
+          ? null
+          : this.props.tasks.all.map((task, i) => {
+            return (
+              <li key={task.id}>{task.title}</li>
+            )
+          })
+        }
+        </ol>
         <CreateTask onSubmitTask={this.createTask.bind(this)}/>
       </div>
     )
@@ -45,7 +61,9 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return {
-    tasksReceived: (tasks) => dispatch(actions.tasksReceived(tasks))
+    fetchTasks: (params) => dispatch(actions.fetchTasks(params)),    
+    tasksReceived: (tasks) => dispatch(actions.tasksReceived(tasks)),
+    taskCreated: (task) => dispatch(actions.taskCreated(task))
   }
 }
 
