@@ -30,6 +30,7 @@ app.set('view engine', 'handlebars')
 // Routes
 app.use('/', require('./routes/index'))
 app.use('/api', require('./routes/api'))
+app.use('/twilio', require('./routes/twilio'))
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`)
