@@ -7,41 +7,32 @@ import { connect } from 'react-redux'
 class Tasks extends Component {
   constructor(){
     super()
+    this.getTasks = this.getTasks.bind(this)
+  }
+
+  getTasks(){
+    console.log('getTasks')
+
+    if (this.props.tasks[this.props.tasks.selectedCategory] != null){
+      return
+    }
+    
+    this.props.fetchTasks( {category: this.props.tasks.selectedCategory} )
+    .then((results) => {
+      // STOP LOADING
+    })
+    .catch((err) => {
+      // STOP LOADING
+      alert('FetchTasks error!!!')
+    })
   }
 
   componentDidMount(){
-    // START LOADING
-    if (this.props.tasks[this.props.tasks.selectedCategory] != null){
-      return
-    }
-
-    /* From the actions, this now returns a promise, so we can do
-    some additional handling on the front end (outside of acitons file) */
-    this.props.fetchTasks( {category: this.props.tasks.selectedCategory} )
-    .then((results) => {
-      // STOP LOADING
-    })
-    .catch((err) => {
-      // STOP LOADING
-      alert('FetchTasks error!!!')
-    })
+    this.getTasks()
   }
 
   componentDidUpdate(){
-    console.log('CDU: ' + this.props.tasks.selectedCategory)
-    if (this.props.tasks[this.props.tasks.selectedCategory] != null){
-      return
-    }
-      
-    this.props.fetchTasks( {category: this.props.tasks.selectedCategory} )
-    .then((results) => {
-      // STOP LOADING
-    })
-    .catch((err) => {
-      // STOP LOADING
-      alert('FetchTasks error!!!')
-    })
-    
+    this.getTasks()
   }
 
   createTask(task){
@@ -55,13 +46,15 @@ class Tasks extends Component {
   }
 
   render(){
+    const taskList = this.props.tasks[this.props.tasks.selectedCategory]
+
     return(
       <div>
         <h2>Tasks ---</h2>
         <ol>
-        { (this.props.tasks[this.props.tasks.selectedCategory] == null)
+        { (taskList == null)
           ? null
-          : this.props.tasks[this.props.tasks.selectedCategory].map((task, i) => {
+          : taskList.map((task, i) => {
             return (
               <li key={task.id}>{task.title}, {task.category}</li>
             )
