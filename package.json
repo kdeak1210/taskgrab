@@ -1,0 +1,20 @@
+{
+  "name": "taskgrab",
+  "version": "1.0.0",
+  "description": "TaskRabbit clone w Twilio",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.13.6",
+    "morgan": "^1.9.0"
+  }
+}
