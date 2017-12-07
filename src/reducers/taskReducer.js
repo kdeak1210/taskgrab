@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
       return updated
 
     case constants.TASK_CREATED:
-      console.log('TASK_CREATED: ' + JSON.stringify(action.task))
+      console.log('TASK_CREATED: ' + JSON.stringify(action.payload))
       let currentTasks = (updated['all']) ? Object.assign([], updated['all']) : []
       currentTasks.unshift(action.payload)
       updated['all'] = currentTasks
