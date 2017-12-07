@@ -5,13 +5,19 @@ import actions from '../../actions'
 import { connect } from 'react-redux'
 
 class Tasks extends Component {
+  constructor(){
+    super()
+  }
 
   componentDidMount(){
     // START LOADING
+    if (this.props.tasks[this.props.tasks.selectedCategory] != null){
+      return
+    }
 
     /* From the actions, this now returns a promise, so we can do
     some additional handling on the front end (outside of acitons file) */
-    this.props.fetchTasks(null)
+    this.props.fetchTasks( {category: this.props.tasks.selectedCategory} )
     .then((results) => {
       // STOP LOADING
     })
@@ -19,6 +25,23 @@ class Tasks extends Component {
       // STOP LOADING
       alert('FetchTasks error!!!')
     })
+  }
+
+  componentDidUpdate(){
+    console.log('CDU: ' + this.props.tasks.selectedCategory)
+    if (this.props.tasks[this.props.tasks.selectedCategory] != null){
+      return
+    }
+      
+    this.props.fetchTasks( {category: this.props.tasks.selectedCategory} )
+    .then((results) => {
+      // STOP LOADING
+    })
+    .catch((err) => {
+      // STOP LOADING
+      alert('FetchTasks error!!!')
+    })
+    
   }
 
   createTask(task){
@@ -36,9 +59,9 @@ class Tasks extends Component {
       <div>
         <h2>Tasks ---</h2>
         <ol>
-        { (this.props.tasks.all == null)
+        { (this.props.tasks[this.props.tasks.selectedCategory] == null)
           ? null
-          : this.props.tasks.all.map((task, i) => {
+          : this.props.tasks[this.props.tasks.selectedCategory].map((task, i) => {
             return (
               <li key={task.id}>{task.title}, {task.category}</li>
             )

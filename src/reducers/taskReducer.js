@@ -1,7 +1,7 @@
 import constants from '../constants'
 
 var initialState = {
-  all: null,
+  // all: null,
   selectedCategory: 'delivery',
   categories: [
     'delivery',
@@ -17,7 +17,11 @@ export default (state = initialState, action) => {
   switch(action.type){
     case constants.TASKS_RECEIVED:
       //console.log('TASKS_RECEIVED: ' + JSON.stringify(action.tasks))
-      updated['all'] = action.payload
+      const keys = Object.keys(action.params)
+      keys.forEach((key, i) => {
+        const value = action.params[key] // delivery, dog walking, etc.
+        updated[value] = action.payload
+      })
 
       return updated
 

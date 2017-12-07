@@ -6,7 +6,7 @@ class CreateTask extends Component {
     this.state = {
       task: {
         title: '',
-        category: '',
+        category: 'delivery',
         description: ''
       }
     }

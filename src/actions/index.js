@@ -14,7 +14,8 @@ const getRequest = (path, params, actionType) => {
 
       dispatch({
         type: actionType,
-        payload: payload
+        payload: payload,
+        params: params        
       })
     })
     .catch((err) => {
@@ -33,7 +34,8 @@ const postRequest = (path, params, actionType) => {
       
       dispatch({
         type: actionType,
-        payload: payload
+        payload: payload,
+        params: params
       })
     })
     .catch((err) => {
