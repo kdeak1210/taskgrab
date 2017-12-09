@@ -1962,7 +1962,7 @@ var getRequest = function getRequest(path, params, actionType) {
 
       _utils.APIManager.get(path, params).then(function (response) {
         //console.log('GET: ' + JSON.stringify(response))
-        var payload = response.results || response.result; // backend returns plural sometimes
+        var payload = response.results || response.result || response.user;
 
         dispatch({
           type: actionType,
@@ -1970,8 +1970,7 @@ var getRequest = function getRequest(path, params, actionType) {
           params: params
         });
       }).catch(function (err) {
-        //console.log('ERR: ' + JSON.stringify(err))
-
+        throw err; // propagate the error down the chain
       })
     );
   };
@@ -1981,7 +1980,7 @@ var postRequest = function postRequest(path, params, actionType) {
   return function (dispatch) {
     return _utils.APIManager.post(path, params).then(function (response) {
       //console.log('POST: ' + JSON.stringify(response))
-      var payload = response.results || response.result;
+      var payload = response.results || response.result || response.user;
 
       dispatch({
         type: actionType,
@@ -1989,8 +1988,7 @@ var postRequest = function postRequest(path, params, actionType) {
         params: params
       });
     }).catch(function (err) {
-      //console.log('ERR: ' + JSON.stringify(err))
-
+      throw err; // propagate the error down the chain
     });
   };
 };
@@ -1999,7 +1997,13 @@ exports.default = {
 
   register: function register(credentials) {
     return function (dispatch) {
-      return dispatch(postRequest('/api/profile', credentials, _constants2.default.PROFILE_CREATED));
+      return dispatch(postRequest('/account/register', credentials, _constants2.default.PROFILE_CREATED));
+    };
+  },
+
+  login: function login(credentials) {
+    return function (dispatch) {
+      return dispatch(postRequest('/account/login', credentials, _constants2.default.USER_LOGGED_IN));
     };
   },
 
@@ -2051,6 +2055,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
 
   PROFILE_CREATED: 'PROFILE_CREATED',
+  USER_LOGGED_IN: 'USER_LOGGED_IN',
 
   TASKS_RECEIVED: 'TASKS_RECEIVED',
   TASK_CREATED: 'TASK_CREATED',
@@ -21606,7 +21611,9 @@ exports.default = {
         }
 
         if (response.body.confirmation != 'success') {
-          reject({ message: response.body.message });
+          //reject({ message: response.body.message })
+          reject(new Error(response.body.message));
+          return;
         }
 
         resolve(response.body);
@@ -21624,7 +21631,9 @@ exports.default = {
         }
 
         if (response.body.confirmation != 'success') {
-          reject({ message: response.body.message });
+          //reject({ message: response.body.message })
+          reject(new Error(response.body.message));
+          return;
         }
 
         resolve(response.body);
@@ -30034,6 +30043,9 @@ var Account = function (_Component) {
     key: 'login',
     value: function login(credentials) {
       console.log('login: ' + JSON.stringify(credentials));
+      this.props.login(credentials).then(function (response) {}).catch(function (err) {
+        alert(err.message);
+      });
     }
   }, {
     key: 'register',
@@ -30065,6 +30077,9 @@ var dispatchToProps = function dispatchToProps(dispatch) {
   return {
     register: function register(credentials) {
       return dispatch(_actions2.default.register(credentials));
+    },
+    login: function login(credentials) {
+      return dispatch(_actions2.default.login(credentials));
     }
   };
 };
@@ -30220,6 +30235,11 @@ exports.default = function () {
   switch (action.type) {
     case _constants2.default.PROFILE_CREATED:
       console.log('PROFILE_CREATED: ' + JSON.stringify(action.payload));
+      updated['user'] = action.payload;
+      return updated;
+
+    case _constants2.default.USER_LOGGED_IN:
+      console.log('USER_LOGGED_IN: ' + JSON.stringify(action.payload));
       updated['user'] = action.payload;
       return updated;
 

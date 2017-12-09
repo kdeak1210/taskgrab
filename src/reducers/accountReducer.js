@@ -9,7 +9,12 @@ export default (state = initialState, action) => {
 
   switch(action.type){
     case constants.PROFILE_CREATED:
-    console.log('PROFILE_CREATED: ' + JSON.stringify(action.payload))
+      console.log('PROFILE_CREATED: ' + JSON.stringify(action.payload))
+      updated['user'] = action.payload
+      return updated
+
+    case constants.USER_LOGGED_IN:
+      console.log('USER_LOGGED_IN: ' + JSON.stringify(action.payload))
       updated['user'] = action.payload
       return updated
     

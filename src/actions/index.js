@@ -10,7 +10,7 @@ const getRequest = (path, params, actionType) => {
     APIManager.get(path, params)
     .then((response) => {
       //console.log('GET: ' + JSON.stringify(response))
-      const payload = response.results || response.result // backend returns plural sometimes
+      const payload = response.results || response.result || response.user
 
       dispatch({
         type: actionType,
@@ -19,8 +19,7 @@ const getRequest = (path, params, actionType) => {
       })
     })
     .catch((err) => {
-      //console.log('ERR: ' + JSON.stringify(err))
-
+      throw err // propagate the error down the chain
     })
 }
 
@@ -30,7 +29,7 @@ const postRequest = (path, params, actionType) => {
     APIManager.post(path, params)
     .then((response) => {
       //console.log('POST: ' + JSON.stringify(response))
-      const payload = response.results || response.result
+      const payload = response.results || response.result || response.user
       
       dispatch({
         type: actionType,
@@ -39,8 +38,7 @@ const postRequest = (path, params, actionType) => {
       })
     })
     .catch((err) => {
-      //console.log('ERR: ' + JSON.stringify(err))
-
+      throw err // propagate the error down the chain
     })
 }
 
@@ -49,7 +47,13 @@ export default {
 
   register: (credentials) => {
     return (dispatch) => {
-      return dispatch(postRequest('/api/profile', credentials, constants.PROFILE_CREATED))
+      return dispatch(postRequest('/account/register', credentials, constants.PROFILE_CREATED))
+    }
+  },
+
+  login: (credentials) => {
+    return (dispatch) => {
+      return dispatch(postRequest('/account/login', credentials, constants.USER_LOGGED_IN))
     }
   },
 
