@@ -22,16 +22,30 @@ router.post('/task', (req, res) => {
   }
 
   let from = req.body['From'] // sender phone number (use to query for profile)
+  from = from.replace('+1', '') // Remove the US country code
 
-  controllers.task.create(task, false)
+  controllers.profile.get({phone: from}, false)
+  .then((profiles) => {
+    if (profiles.length == 0){
+      throw new Error('You are not registered with TaskGrab.')
+      return
+    }
+
+    profile = profiles[0]
+    task['profile'] = {       // Add the profile to the task object
+      id: profile.id,
+      username: profile.username
+    }
+
+    return controllers.task.create(task, false) // Returns a promise (continue chain)
+  })
   .then((result) => {
     console.log('SUCCESS: ' + JSON.stringify(result))    
     res.send('Hello!')
   })
   .catch((err) => {
-    console.log('ERROR: ' + err)
+    console.log('ERROR: ' + err.message)
   })
-
 })
 
 module.exports = router
