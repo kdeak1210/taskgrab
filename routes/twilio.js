@@ -11,13 +11,17 @@ router.get('/task', (req, res) => {
 
 router.post('/task', (req, res) => {
   console.log('TWILIO: ' + JSON.stringify(req.body))
+  // TWILIO: {"ToCountry":"US","ToState":"NY","SmsMessageSid":"SMbf213928da4985a7908d07f022aff3f2","NumMedia":"0","ToCity":"COLD SPRING HARBOR","FromZip":"11768","SmsSid":"SMbf213928da4985a7908d07f022aff3f2","FromState":"NY","SmsStatus":"received","FromCity":"NORTHPORT","Body":"A sample delivery task","FromCountry":"US","To":"+16314988009","ToZip":"11724","NumSegments":"1","MessageSid":"SMbf213928da4985a7908d07f022aff3f2","AccountSid":"AC8fee9e2287d0cb8a413805dd769185e2","From":"+16318963536","ApiVersion":"2010-04-01"}
 
   let message = req.body['Body']
+  
   let task = {
     title: 'Hardcoded Task',
     category: 'delivery',
     description: message
   }
+
+  let from = req.body['From'] // sender phone number (use to query for profile)
 
   controllers.task.create(task, false)
   .then((result) => {
@@ -28,7 +32,6 @@ router.post('/task', (req, res) => {
     console.log('ERROR: ' + err)
   })
 
-  res.send('hello twilio get task')
 })
 
 module.exports = router

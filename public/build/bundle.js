@@ -1997,6 +1997,12 @@ var postRequest = function postRequest(path, params, actionType) {
 
 exports.default = {
 
+  register: function register(credentials) {
+    return function (dispatch) {
+      return dispatch(postRequest('/api/profile', credentials, _constants2.default.PROFILE_CREATED));
+    };
+  },
+
   fetchTasks: function fetchTasks(params) {
     return function (dispatch) {
       return dispatch(getRequest('/api/task', params, _constants2.default.TASKS_RECEIVED));
@@ -2043,6 +2049,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
+
+  PROFILE_CREATED: 'PROFILE_CREATED',
 
   TASKS_RECEIVED: 'TASKS_RECEIVED',
   TASK_CREATED: 'TASK_CREATED',
@@ -21413,13 +21421,18 @@ var Home = function (_Component) {
         { className: 'row' },
         _react2.default.createElement(
           'div',
-          { className: 'col-md-4' },
+          { className: 'col-md-2' },
           _react2.default.createElement(_containers.Categories, null)
         ),
         _react2.default.createElement(
           'div',
           { className: 'col-md-8' },
           _react2.default.createElement(_containers.Tasks, null)
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'col-md-2' },
+          _react2.default.createElement(_containers.Account, null)
         )
       );
     }
@@ -21440,7 +21453,11 @@ exports.default = Home;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Tasks = exports.Categories = undefined;
+exports.Tasks = exports.Categories = exports.Account = undefined;
+
+var _Account = __webpack_require__(94);
+
+var _Account2 = _interopRequireDefault(_Account);
 
 var _Categories = __webpack_require__(76);
 
@@ -21452,6 +21469,7 @@ var _Tasks2 = _interopRequireDefault(_Tasks);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.Account = _Account2.default;
 exports.Categories = _Categories2.default;
 exports.Tasks = _Tasks2.default;
 
@@ -29685,7 +29703,11 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Tasks)
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CreateTask = undefined;
+exports.CreateTask = exports.Authenticate = undefined;
+
+var _Authenticate = __webpack_require__(95);
+
+var _Authenticate2 = _interopRequireDefault(_Authenticate);
 
 var _CreateTask = __webpack_require__(89);
 
@@ -29693,6 +29715,7 @@ var _CreateTask2 = _interopRequireDefault(_CreateTask);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.Authenticate = _Authenticate2.default;
 exports.CreateTask = _CreateTask2.default;
 
 /***/ }),
@@ -29832,6 +29855,7 @@ exports.default = {
   configureStore: function configureStore() {
 
     var reducers = (0, _redux.combineReducers)({
+      account: _reducers.accountReducer,
       task: _reducers.taskReducer
     });
 
@@ -29885,7 +29909,11 @@ exports['default'] = thunk;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.taskReducer = undefined;
+exports.taskReducer = exports.accountReducer = undefined;
+
+var _accountReducer = __webpack_require__(96);
+
+var _accountReducer2 = _interopRequireDefault(_accountReducer);
 
 var _taskReducer = __webpack_require__(93);
 
@@ -29893,6 +29921,7 @@ var _taskReducer2 = _interopRequireDefault(_taskReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.accountReducer = _accountReducer2.default;
 exports.taskReducer = _taskReducer2.default;
 
 /***/ }),
@@ -29948,6 +29977,250 @@ exports.default = function () {
       //console.log('CATEGORY_SELECTED: ' + JSON.stringify(action.payload))
       updated['selectedCategory'] = action.payload;
 
+      return updated;
+
+    default:
+      return updated;
+  }
+};
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _presentation = __webpack_require__(88);
+
+var _actions = __webpack_require__(29);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _reactRedux = __webpack_require__(10);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Account = function (_Component) {
+  _inherits(Account, _Component);
+
+  function Account() {
+    _classCallCheck(this, Account);
+
+    var _this = _possibleConstructorReturn(this, (Account.__proto__ || Object.getPrototypeOf(Account)).call(this));
+
+    _this.login = _this.login.bind(_this);
+    _this.register = _this.register.bind(_this);
+    return _this;
+  }
+
+  _createClass(Account, [{
+    key: 'login',
+    value: function login(credentials) {
+      console.log('login: ' + JSON.stringify(credentials));
+    }
+  }, {
+    key: 'register',
+    value: function register(credentials) {
+      console.log('register: ' + JSON.stringify(credentials));
+      this.props.register(credentials);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_presentation.Authenticate, { onLogin: this.login, onRegister: this.register })
+      );
+    }
+  }]);
+
+  return Account;
+}(_react.Component);
+
+var stateToProps = function stateToProps(state) {
+  return {
+    user: state.account.user // can be null
+  };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+  return {
+    register: function register(credentials) {
+      return dispatch(_actions2.default.register(credentials));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Account);
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /** Named 'Authenticate', can sign up or login */
+
+
+var Authenticate = function (_Component) {
+  _inherits(Authenticate, _Component);
+
+  function Authenticate() {
+    _classCallCheck(this, Authenticate);
+
+    var _this = _possibleConstructorReturn(this, (Authenticate.__proto__ || Object.getPrototypeOf(Authenticate)).call(this));
+
+    _this.state = {
+      credentials: {
+        username: '',
+        phone: '',
+        email: '',
+        password: ''
+      }
+    };
+    return _this;
+  }
+
+  _createClass(Authenticate, [{
+    key: 'updateCredentials',
+    value: function updateCredentials(field, event) {
+      console.log('Updated Credentials: ' + field + ' - ' + event.target.value);
+      var updated = Object.assign({}, this.state.credentials);
+      updated[field] = event.target.value;
+      this.setState({
+        credentials: updated
+      });
+    }
+  }, {
+    key: 'register',
+    value: function register() {
+      console.log('Register: ' + JSON.stringify(this.state.credentials));
+      this.props.onRegister(this.state.credentials);
+    }
+  }, {
+    key: 'login',
+    value: function login() {
+      console.log('Login: ' + JSON.stringify(this.state.credentials));
+      this.props.onLogin(this.state.credentials);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h2',
+          null,
+          'ACCOUNT'
+        ),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Sign Up'
+        ),
+        _react2.default.createElement('input', { onChange: this.updateCredentials.bind(this, 'username'), type: 'text', placeholder: 'Username' }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('input', { onChange: this.updateCredentials.bind(this, 'phone'), type: 'text', placeholder: 'Phone' }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('input', { onChange: this.updateCredentials.bind(this, 'email'), type: 'text', placeholder: 'Email' }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('input', { onChange: this.updateCredentials.bind(this, 'password'), type: 'text', placeholder: 'Password' }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'button',
+          { onClick: this.register.bind(this) },
+          'Join'
+        ),
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Login'
+        ),
+        _react2.default.createElement('input', { onChange: this.updateCredentials.bind(this, 'email'), type: 'text', placeholder: 'Email' }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement('input', { onChange: this.updateCredentials.bind(this, 'password'), type: 'text', placeholder: 'Password' }),
+        _react2.default.createElement('br', null),
+        _react2.default.createElement(
+          'button',
+          { onClick: this.login.bind(this) },
+          'Login'
+        )
+      );
+    }
+  }]);
+
+  return Authenticate;
+}(_react.Component);
+
+exports.default = Authenticate;
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _constants = __webpack_require__(30);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var initialState = {
+  user: null
+};
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
+
+  var updated = Object.assign({}, state);
+
+  switch (action.type) {
+    case _constants2.default.PROFILE_CREATED:
+      console.log('PROFILE_CREATED: ' + JSON.stringify(action.payload));
+      updated['user'] = action.payload;
       return updated;
 
     default:
