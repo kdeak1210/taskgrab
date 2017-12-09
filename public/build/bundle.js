@@ -2007,6 +2007,12 @@ exports.default = {
     };
   },
 
+  checkCurrentUser: function checkCurrentUser() {
+    return function (dispatch) {
+      return dispatch(getRequest('/account/currentuser', null, _constants2.default.USER_LOGGED_IN));
+    };
+  },
+
   fetchTasks: function fetchTasks(params) {
     return function (dispatch) {
       return dispatch(getRequest('/api/task', params, _constants2.default.TASKS_RECEIVED));
@@ -30040,6 +30046,13 @@ var Account = function (_Component) {
   }
 
   _createClass(Account, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.currentUser == null) {
+        this.props.checkCurrentUser(); // check user on page refresh/CDM hook      
+      }
+    }
+  }, {
     key: 'login',
     value: function login(credentials) {
       console.log('login: ' + JSON.stringify(credentials));
@@ -30059,7 +30072,13 @@ var Account = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_presentation.Authenticate, { onLogin: this.login, onRegister: this.register })
+        this.props.user == null ? _react2.default.createElement(_presentation.Authenticate, { onLogin: this.login, onRegister: this.register }) : _react2.default.createElement(
+          'h3',
+          null,
+          'Hello ',
+          this.props.user.username,
+          '!'
+        )
       );
     }
   }]);
@@ -30080,6 +30099,9 @@ var dispatchToProps = function dispatchToProps(dispatch) {
     },
     login: function login(credentials) {
       return dispatch(_actions2.default.login(credentials));
+    },
+    checkCurrentUser: function checkCurrentUser() {
+      return dispatch(_actions2.default.checkCurrentUser());
     }
   };
 };

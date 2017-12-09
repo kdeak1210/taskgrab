@@ -10,6 +10,12 @@ class Account extends Component {
     this.register = this.register.bind(this)    
   }
 
+  componentDidMount(){
+    if (this.props.currentUser == null){
+      this.props.checkCurrentUser() // check user on page refresh/CDM hook      
+    }
+  }
+
   login(credentials){
     console.log('login: ' + JSON.stringify(credentials))
     this.props.login(credentials)
@@ -29,9 +35,10 @@ class Account extends Component {
   render(){
     return(
       <div>
-        
-        <Authenticate onLogin={this.login} onRegister={this.register}/>
-
+        { (this.props.user == null)
+          ? <Authenticate onLogin={this.login} onRegister={this.register}/>
+          : <h3>Hello {this.props.user.username}!</h3>
+        }
       </div>
     )
   }
@@ -46,7 +53,8 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
   return {
     register: (credentials) => dispatch(actions.register(credentials)),
-    login: (credentials) => dispatch(actions.login(credentials))
+    login: (credentials) => dispatch(actions.login(credentials)),
+    checkCurrentUser: () => dispatch(actions.checkCurrentUser())
   }
 }
 
