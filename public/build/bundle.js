@@ -30049,7 +30049,10 @@ var Account = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (this.props.currentUser == null) {
-        this.props.checkCurrentUser(); // check user on page refresh/CDM hook      
+        this.props.checkCurrentUser() // check user on page refresh/CDM hook      
+        .then().catch(function (err) {
+          return console.log(err.message);
+        });
       }
     }
   }, {
