@@ -14,11 +14,18 @@ router.post('/task', (req, res) => {
   // TWILIO: {"ToCountry":"US","ToState":"NY","SmsMessageSid":"SMbf213928da4985a7908d07f022aff3f2","NumMedia":"0","ToCity":"COLD SPRING HARBOR","FromZip":"11768","SmsSid":"SMbf213928da4985a7908d07f022aff3f2","FromState":"NY","SmsStatus":"received","FromCity":"NORTHPORT","Body":"A sample delivery task","FromCountry":"US","To":"+16314988009","ToZip":"11724","NumSegments":"1","MessageSid":"SMbf213928da4985a7908d07f022aff3f2","AccountSid":"AC8fee9e2287d0cb8a413805dd769185e2","From":"+16318963536","ApiVersion":"2010-04-01"}
 
   let message = req.body['Body']
-  
+
+  // Title. Category. task description.
+  // example: 'Package Pickup. Delivery. Please pick up my package.'
+  let parts = message.split('.')  // should be 3 parts
+  let title = parts[0];
+  let category = (parts.length == 1) ? 'miscellaneous' : parts[1].trim().toLowerCase();
+  let description = (parts.length < 3) ? '' : parts[2].trim();
+
   let task = {
-    title: 'Hardcoded Task',
-    category: 'delivery',
-    description: message
+    title: title,
+    category: category,
+    description: description
   }
 
   let from = req.body['From'] // sender phone number (use to query for profile)
