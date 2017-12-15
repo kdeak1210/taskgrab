@@ -21,7 +21,11 @@ export default (state = initialState, action) => {
       const keys = Object.keys(action.params)
       keys.forEach((key, i) => {
         const value = action.params[key] // delivery, dog walking, etc.
-        updated[value] = action.payload
+        updated[value] = action.payload // ex. updated['delivery'] = [Array of tasks in category]
+      })
+
+      action.payload.forEach((task, i) => {
+        updated[task.id] = task // ALSO stores the tasks by their id as a key
       })
 
       return updated
