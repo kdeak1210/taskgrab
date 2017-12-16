@@ -28,7 +28,8 @@
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "superagent": "^3.8.1"
+    "superagent": "^3.8.1",
+    "twilio": "^2.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

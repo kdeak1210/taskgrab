@@ -17,6 +17,9 @@ const getRequest = (path, params, actionType) => {
         payload: payload,
         params: params        
       })
+
+      return response // So the container has access to the chain
+      // (Either Return the response / err (or throw) to continue the promise chian in both blocks)
     })
     .catch((err) => {
       throw err // propagate the error down the chain
@@ -36,6 +39,8 @@ const postRequest = (path, params, actionType) => {
         payload: payload,
         params: params
       })
+
+      return response
     })
     .catch((err) => {
       throw err // propagate the error down the chain
@@ -93,6 +98,12 @@ export default {
   submitTask: (params) => {
     return (dispatch) => {
       return dispatch(postRequest('/api/task', params, constants.TASK_CREATED))
+    }
+  },
+
+  submitMessage: (params) => {
+    return (dispatch) => {
+      return dispatch(postRequest('/api/message', params, constants.MESSAGE_CREATED))
     }
   }
 

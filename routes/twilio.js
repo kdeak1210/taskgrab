@@ -1,12 +1,41 @@
 const express = require('express')
 const router = express.Router()
 const controllers = require('../controllers')
+const twilio = require('twilio')
+
+const accountSid = process.env.ACCOUNT_SID
+const authToken = process.env.TWILIO_AUTH_TOKEN
 
 router.get('/task', (req, res) => {
   res.json({
     confirmation: 'success',
     message: 'it worked'
   })
+})
+
+router.get('/notify', (req, res) => {
+
+  const client = new twilio(accountSid, authToken)
+  client.messages.create({
+    body: 'Hello from Node',
+    to: '+16318963536',  // Text this number
+    from: '+16314988009' // From a valid Twilio number
+  }, (err, message) => {
+    if (err){
+      res.json({
+        confirmation: 'fail',
+        message: err
+      })
+
+      return
+    }
+
+    res.json({
+      confirmation: 'success',
+      message: message
+    })
+  })
+
 })
 
 router.post('/task', (req, res) => {

@@ -827,6 +827,9 @@ var getRequest = function getRequest(path, params, actionType) {
           payload: payload,
           params: params
         });
+
+        return response; // So the container has access to the chain
+        // (Either Return the response / err (or throw) to continue the promise chian in both blocks)
       }).catch(function (err) {
         throw err; // propagate the error down the chain
       })
@@ -845,6 +848,8 @@ var postRequest = function postRequest(path, params, actionType) {
         payload: payload,
         params: params
       });
+
+      return response;
     }).catch(function (err) {
       throw err; // propagate the error down the chain
     });
@@ -902,6 +907,12 @@ exports.default = {
     return function (dispatch) {
       return dispatch(postRequest('/api/task', params, _constants2.default.TASK_CREATED));
     };
+  },
+
+  submitMessage: function submitMessage(params) {
+    return function (dispatch) {
+      return dispatch(postRequest('/api/message', params, _constants2.default.MESSAGE_CREATED));
+    };
   }
 
 };
@@ -923,6 +934,8 @@ exports.default = {
 
   TASKS_RECEIVED: 'TASKS_RECEIVED',
   TASK_CREATED: 'TASK_CREATED',
+
+  MESSAGE_CREATED: 'MESSAGE_CREATED',
 
   CATEGORY_SELECTED: 'CATEGORY_SELECTED'
 
@@ -34630,12 +34643,47 @@ var Task = function (_Component) {
   function Task() {
     _classCallCheck(this, Task);
 
-    return _possibleConstructorReturn(this, (Task.__proto__ || Object.getPrototypeOf(Task)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Task.__proto__ || Object.getPrototypeOf(Task)).call(this));
+
+    _this.state = {
+      message: {
+        content: ''
+      }
+    };
+    return _this;
   }
 
   _createClass(Task, [{
     key: 'componentDidMount',
     value: function componentDidMount() {}
+  }, {
+    key: 'updateMessage',
+    value: function updateMessage(event) {
+      var updated = Object.assign({}, this.state.message);
+      updated['content'] = event.target.value;
+      this.setState({
+        message: updated
+      });
+    }
+  }, {
+    key: 'submitMessage',
+    value: function submitMessage() {
+      var updated = Object.assign({}, this.state.message);
+      updated['task'] = this.props.match.params.taskId;
+
+      var user = this.props.account.user;
+      updated['profile'] = {
+        id: user.id,
+        username: user.username
+      };
+
+      this.props.submitMessage(updated).then(function (response) {
+        alert('Thank you for replying to this task.');
+        // Now send a message to the task's creator...
+      }).catch(function (err) {
+        console.log('ERR: ' + JSON.stringify(err));
+      });
+    }
   }, {
     key: 'render',
     value: function render() {
@@ -34670,11 +34718,11 @@ var Task = function (_Component) {
             null,
             'Reply'
           ),
-          _react2.default.createElement('textarea', { placeholder: 'Enter Message to Respond', name: '', id: '', cols: '30', rows: '10' }),
+          _react2.default.createElement('textarea', { onChange: this.updateMessage.bind(this), placeholder: 'Enter Message to Respond', name: '', id: '', cols: '30', rows: '10' }),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'button',
-            null,
+            { onClick: this.submitMessage.bind(this) },
             'Submit'
           )
         )
@@ -34692,7 +34740,15 @@ var stateToProps = function stateToProps(state) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(stateToProps)(Task);
+var dispatchToProps = function dispatchToProps(dispatch) {
+  return {
+    submitMessage: function submitMessage(message) {
+      return dispatch(_actions2.default.submitMessage(message));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Task);
 
 /***/ }),
 /* 141 */

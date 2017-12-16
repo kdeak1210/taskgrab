@@ -5,9 +5,46 @@ import actions from '../../actions'
 import { connect } from 'react-redux'
 
 class Task extends Component {
+  constructor(){
+    super()
+    this.state = {
+      message: {
+        content: ''
+      }
+    }
+  }
 
   componentDidMount(){
 
+  }
+
+  updateMessage(event){
+    let updated = Object.assign({}, this.state.message)
+    updated['content'] = event.target.value
+    this.setState({
+      message: updated
+    })
+  }
+
+  submitMessage(){
+    let updated = Object.assign({}, this.state.message)
+    updated['task'] = this.props.match.params.taskId
+
+    const user = this.props.account.user
+    updated['profile'] = {
+      id: user.id,
+      username: user.username,
+    }
+
+    this.props.submitMessage(updated)
+    .then(response => {
+      alert('Thank you for replying to this task.')
+      // Now send a message to the task's creator...
+    })
+    .catch(err => {
+      console.log('ERR: ' + JSON.stringify(err))
+      
+    })
   }
   
   render(){
@@ -23,12 +60,11 @@ class Task extends Component {
 
         { (this.props.account.user == null) 
           ? <h3>Please Log in or Register to Reply</h3>
-          : 
-            <div>
+          : <div>
               <h3>Reply</h3>
-              <textarea placeholder="Enter Message to Respond" name="" id="" cols="30" rows="10"></textarea>
+              <textarea onChange={this.updateMessage.bind(this)} placeholder="Enter Message to Respond" name="" id="" cols="30" rows="10"></textarea>
               <br />
-              <button>Submit</button>
+              <button onClick={this.submitMessage.bind(this)}>Submit</button>
             </div>
         }
         
@@ -44,4 +80,10 @@ const stateToProps = (state) => {
   }
 }
 
-export default connect(stateToProps)(Task)
+const dispatchToProps = (dispatch) => {
+  return {
+    submitMessage: (message) => dispatch(actions.submitMessage(message))
+  }
+}
+
+export default connect(stateToProps, dispatchToProps)(Task)
