@@ -1,7 +1,7 @@
-const Task = require('../models/Task')
+const Message = require('../models/Message')
 const Promise = require('bluebird')
 
-// Export a series of functions to deal with Task resources
+// Export a series of functions to deal with Message resources
 module.exports = {
 
   get: (params, isRaw) => {
@@ -10,18 +10,18 @@ module.exports = {
         sort: {timestamp: -1}
       }
 
-      Task.find(params, null, filters, (err, tasks) => {
+      Message.find(params, null, filters, (err, messages) => {
         if (err){
           reject(err)
           return
         }
 
         if (isRaw == true){
-          resolve(tasks)
+          resolve(messages)
         } else {
           let list = []
-          tasks.forEach((task) => {
-            list.push(task.summary())
+          messages.forEach((message) => {
+            list.push(message.summary())
           })
 
           resolve(list)
@@ -32,16 +32,16 @@ module.exports = {
 
   getById: (id, isRaw) => {
     return new Promise((resolve, reject) => {
-      Task.findById(id, (err, task) => {
+      Message.findById(id, (err, message) => {
         if (err){
           reject(err)
           return
         }
 
         if (isRaw == true){
-          resolve(task)
+          resolve(message)
         } else {
-          resolve(task.summary())
+          resolve(message.summary())
         }
       })
     })
@@ -50,16 +50,16 @@ module.exports = {
   create: (params, isRaw) => {
     return new Promise((resolve, reject) => {
 
-      Task.create(params, (err, task) => {
+      Message.create(params, (err, message) => {
         if (err){
           reject(err)
           return
         }
 
         if (isRaw == true){
-          resolve(task)
+          resolve(message)
         } else {
-          resolve(task.summary())
+          resolve(message.summary())
         }
       })
     })
