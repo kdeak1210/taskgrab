@@ -12,7 +12,7 @@ ProfileSchema.methods.summary = function() {
   const summary = {
     username: this.username,
     phone: this.phone,
-    email: this.username,
+    email: this.email,
     timestamp: this.timestamp,
     id: this._id.toString()
   }
