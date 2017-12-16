@@ -47,19 +47,22 @@ router.post('/notify', (req, res) => {
     })
   }
 
-  controllers.profile.getById(req.body.recipient, true)
+  controllers.profile
+  .getById(req.body.recipient, true)  // Grab profile
   .then(profile => {
 
     // Get their phone number from the returned profile
     const phone = profile.phone
 
-    TwilioManager.sendSMS(phone, req.body.content)
-    .then(message => {
-      res.json({
-        confirmation: 'success',
-        message: message
-      })
+    return TwilioManager.sendSMS(phone, req.body.content)
+  })  
+  .then(message => {
+    res.json({
+      confirmation: 'success',
+      message: message
     })
+
+    return message
   })
   .catch(err => {
     res.json({
@@ -67,21 +70,6 @@ router.post('/notify', (req, res) => {
       message: err
     })
   })
-
-  // TwilioManager.sendSMS(req.body.recipient, req.body.content)
-  // .then(message => {
-  //   res.json({
-  //     confirmation: 'success',
-  //     message: message
-  //   })
-  // })
-  // .catch(err => {
-  //   res.json({
-  //     confirmation: 'fail',
-  //     message: err
-  //   })
-  // })
-
 })
 
 router.post('/task', (req, res) => {
