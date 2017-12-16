@@ -2196,7 +2196,7 @@ var App = function (_Component) {
             _reactRouterDom.Switch,
             null,
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _layout.Home }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/task/:taskId', component: _containers.Task })
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/task/:taskId', component: _layout.ClaimTask })
           )
         )
       );
@@ -21412,7 +21412,11 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Home = undefined;
+exports.Home = exports.ClaimTask = undefined;
+
+var _ClaimTask = __webpack_require__(141);
+
+var _ClaimTask2 = _interopRequireDefault(_ClaimTask);
 
 var _Home = __webpack_require__(75);
 
@@ -21420,6 +21424,7 @@ var _Home2 = _interopRequireDefault(_Home);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.ClaimTask = _ClaimTask2.default;
 exports.Home = _Home2.default;
 
 /***/ }),
@@ -34652,7 +34657,27 @@ var Task = function (_Component) {
         _react2.default.createElement('br', null),
         'Creator: ',
         task.profile.username,
-        _react2.default.createElement('br', null)
+        _react2.default.createElement('br', null),
+        this.props.account.user == null ? _react2.default.createElement(
+          'h3',
+          null,
+          'Please Log in or Register to Reply'
+        ) : _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Reply'
+          ),
+          _react2.default.createElement('textarea', { placeholder: 'Enter Message to Respond', name: '', id: '', cols: '30', rows: '10' }),
+          _react2.default.createElement('br', null),
+          _react2.default.createElement(
+            'button',
+            null,
+            'Submit'
+          )
+        )
       );
     }
   }]);
@@ -34662,11 +34687,53 @@ var Task = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
   return {
+    account: state.account,
     tasks: state.task
   };
 };
 
 exports.default = (0, _reactRedux.connect)(stateToProps)(Task);
+
+/***/ }),
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _containers = __webpack_require__(76);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'container' },
+    _react2.default.createElement(
+      'div',
+      { className: 'row' },
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-8' },
+        _react2.default.createElement(_containers.Task, props)
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-md-4' },
+        _react2.default.createElement(_containers.Account, null)
+      )
+    )
+  );
+};
 
 /***/ })
 /******/ ]);

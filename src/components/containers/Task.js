@@ -20,6 +20,18 @@ class Task extends Component {
         Description: { task.description }<br />
         Category: { task.category }<br />
         Creator: { task.profile.username }<br />
+
+        { (this.props.account.user == null) 
+          ? <h3>Please Log in or Register to Reply</h3>
+          : 
+            <div>
+              <h3>Reply</h3>
+              <textarea placeholder="Enter Message to Respond" name="" id="" cols="30" rows="10"></textarea>
+              <br />
+              <button>Submit</button>
+            </div>
+        }
+        
       </div>
     )
   }
@@ -27,6 +39,7 @@ class Task extends Component {
 
 const stateToProps = (state) => {
   return {
+    account: state.account,
     tasks: state.task
   }
 }
