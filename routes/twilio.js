@@ -12,19 +12,18 @@ router.get('/task', (req, res) => {
 
 router.get('/notify', (req, res) => {
 
-  TwilioManager.sendSMS('6318963536', 'Would this even work?', (err, message) => {
-    if (err){
-      res.json({
-        confirmation: 'fail',
-        message: err
-      })
-
-      return
-    }
-
+  // Use our manager to send a message from the Twilio # to a recipient
+  TwilioManager.sendSMS('6318963536', 'Would this even work?')
+  .then(message => {
     res.json({
       confirmation: 'success',
       message: message
+    })
+  })
+  .catch(err => {
+    res.json({
+      confirmation: 'fail',
+      message: err
     })
   })
 
