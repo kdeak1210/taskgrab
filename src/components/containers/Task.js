@@ -38,8 +38,24 @@ class Task extends Component {
 
     this.props.submitMessage(updated)
     .then(response => {
-      alert('Thank you for replying to this task.')
+      //alert('Thank you for replying to this task.')
+
+      // Get the task creator's profile id (send it to backend to get their # (hidden))
+      const { taskId } = this.props.match.params
+      const task = this.props.tasks[taskId]
+      const creatorId = task.profile.id
+      
       // Now send a message to the task's creator...
+      const params = {
+        recipient: creatorId,
+        content: 'Does this work 4?'
+      }
+      
+      return this.props.notifyCreator(params) // Return this to continue chain (it returns a promise)
+    })
+    .then(response => {
+      // By this point, the creator should have been notified (no errors)
+      alert('Thank you for replying to this task.')
     })
     .catch(err => {
       console.log('ERR: ' + JSON.stringify(err))
@@ -82,7 +98,8 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return {
-    submitMessage: (message) => dispatch(actions.submitMessage(message))
+    submitMessage: (params) => dispatch(actions.submitMessage(params)),
+    notifyCreator: (params) => dispatch(actions.notifyCreator(params))
   }
 }
 

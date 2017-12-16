@@ -105,6 +105,12 @@ export default {
     return (dispatch) => {
       return dispatch(postRequest('/api/message', params, constants.MESSAGE_CREATED))
     }
+  },
+
+  notifyCreator: (params) => {
+    return (dispatch) => {
+      return dispatch(postRequest('/twilio/notify', params, null))
+    }
   }
 
 }

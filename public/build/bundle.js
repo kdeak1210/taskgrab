@@ -913,6 +913,12 @@ exports.default = {
     return function (dispatch) {
       return dispatch(postRequest('/api/message', params, _constants2.default.MESSAGE_CREATED));
     };
+  },
+
+  notifyCreator: function notifyCreator(params) {
+    return function (dispatch) {
+      return dispatch(postRequest('/twilio/notify', params, null));
+    };
   }
 
 };
@@ -34668,6 +34674,8 @@ var Task = function (_Component) {
   }, {
     key: 'submitMessage',
     value: function submitMessage() {
+      var _this2 = this;
+
       var updated = Object.assign({}, this.state.message);
       updated['task'] = this.props.match.params.taskId;
 
@@ -34678,8 +34686,24 @@ var Task = function (_Component) {
       };
 
       this.props.submitMessage(updated).then(function (response) {
-        alert('Thank you for replying to this task.');
+        //alert('Thank you for replying to this task.')
+
+        // Get the task creator's profile id (send it to backend to get their # (hidden))
+        var taskId = _this2.props.match.params.taskId;
+
+        var task = _this2.props.tasks[taskId];
+        var creatorId = task.profile.id;
+
         // Now send a message to the task's creator...
+        var params = {
+          recipient: creatorId,
+          content: 'Does this work 4?'
+        };
+
+        return _this2.props.notifyCreator(params); // Return this to continue chain (it returns a promise)
+      }).then(function (response) {
+        // By this point, the creator should have been notified (no errors)
+        alert('Thank you for replying to this task.');
       }).catch(function (err) {
         console.log('ERR: ' + JSON.stringify(err));
       });
@@ -34742,8 +34766,11 @@ var stateToProps = function stateToProps(state) {
 
 var dispatchToProps = function dispatchToProps(dispatch) {
   return {
-    submitMessage: function submitMessage(message) {
-      return dispatch(_actions2.default.submitMessage(message));
+    submitMessage: function submitMessage(params) {
+      return dispatch(_actions2.default.submitMessage(params));
+    },
+    notifyCreator: function notifyCreator(params) {
+      return dispatch(_actions2.default.notifyCreator(params));
     }
   };
 };

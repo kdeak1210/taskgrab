@@ -29,6 +29,61 @@ router.get('/notify', (req, res) => {
 
 })
 
+router.post('/notify', (req, res) => {
+
+  //console.log(JSON.stringify(req.body))
+
+  if (req.body.recipient == null){
+    res.json({
+      confirmation: 'fail',
+      message: 'Please specify a recipient'
+    })
+  }
+
+  if (req.body.content == null){
+    res.json({
+      confirmation: 'fail',
+      message: 'Please include a message'
+    })
+  }
+
+  controllers.profile.getById(req.body.recipient, true)
+  .then(profile => {
+
+    // Get their phone number from the returned profile
+    const phone = profile.phone
+
+    TwilioManager.sendSMS(phone, req.body.content)
+    .then(message => {
+      res.json({
+        confirmation: 'success',
+        message: message
+      })
+    })
+  })
+  .catch(err => {
+    res.json({
+      confirmation: 'fail',
+      message: err
+    })
+  })
+
+  // TwilioManager.sendSMS(req.body.recipient, req.body.content)
+  // .then(message => {
+  //   res.json({
+  //     confirmation: 'success',
+  //     message: message
+  //   })
+  // })
+  // .catch(err => {
+  //   res.json({
+  //     confirmation: 'fail',
+  //     message: err
+  //   })
+  // })
+
+})
+
 router.post('/task', (req, res) => {
   console.log('TWILIO: ' + JSON.stringify(req.body))
   // TWILIO: {"ToCountry":"US","ToState":"NY","SmsMessageSid":"SMbf213928da4985a7908d07f022aff3f2","NumMedia":"0","ToCity":"COLD SPRING HARBOR","FromZip":"11768","SmsSid":"SMbf213928da4985a7908d07f022aff3f2","FromState":"NY","SmsStatus":"received","FromCity":"NORTHPORT","Body":"A sample delivery task","FromCountry":"US","To":"+16314988009","ToZip":"11724","NumSegments":"1","MessageSid":"SMbf213928da4985a7908d07f022aff3f2","AccountSid":"AC8fee9e2287d0cb8a413805dd769185e2","From":"+16318963536","ApiVersion":"2010-04-01"}
