@@ -34697,7 +34697,7 @@ var Task = function (_Component) {
         // Now send a message to the task's creator...
         var params = {
           recipient: creatorId,
-          content: 'Does this work 4?'
+          content: updated.content
         };
 
         return _this2.props.notifyCreator(params); // Return this to continue chain (it returns a promise)
