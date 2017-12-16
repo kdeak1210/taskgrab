@@ -11,11 +11,17 @@ class Account extends Component {
   }
 
   componentDidMount(){
-    if (this.props.currentUser == null){
-      this.props.checkCurrentUser() // check user on page refresh/CDM hook      
-      .then()
-      .catch(err => console.log(err.message))
+    if (this.props.currentUser != null){
+      return;
     }
+
+    this.props.checkCurrentUser() // check user on page refresh/CDM hook      
+    .then(response => {
+      
+    })
+    .catch(err => {
+      console.log('ERROR: ' + err.message)
+    })
   }
 
   login(credentials){

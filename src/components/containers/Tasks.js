@@ -19,12 +19,12 @@ class Tasks extends Component {
     }
     
     this.props.fetchTasks( {category: this.props.tasks.selectedCategory} )
-    .then((results) => {
+    .then((response) => {
       // STOP LOADING
     })
     .catch((err) => {
       // STOP LOADING
-      alert('FetchTasks error!!!')
+      console.log('ERROR: ' + err.message)
     })
   }
 

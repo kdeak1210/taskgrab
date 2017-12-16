@@ -21572,12 +21572,14 @@ var Account = function (_Component) {
   _createClass(Account, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      if (this.props.currentUser == null) {
-        this.props.checkCurrentUser() // check user on page refresh/CDM hook      
-        .then().catch(function (err) {
-          return console.log(err.message);
-        });
+      if (this.props.currentUser != null) {
+        return;
       }
+
+      this.props.checkCurrentUser() // check user on page refresh/CDM hook      
+      .then(function (response) {}).catch(function (err) {
+        console.log('ERROR: ' + err.message);
+      });
     }
   }, {
     key: 'login',
@@ -30006,11 +30008,11 @@ var Tasks = function (_Component) {
         return;
       }
 
-      this.props.fetchTasks({ category: this.props.tasks.selectedCategory }).then(function (results) {
+      this.props.fetchTasks({ category: this.props.tasks.selectedCategory }).then(function (response) {
         // STOP LOADING
       }).catch(function (err) {
         // STOP LOADING
-        alert('FetchTasks error!!!');
+        console.log('ERROR: ' + err.message);
       });
     }
   }, {
