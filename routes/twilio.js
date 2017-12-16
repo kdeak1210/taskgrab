@@ -1,10 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const controllers = require('../controllers')
-const twilio = require('twilio')
-
-const accountSid = process.env.ACCOUNT_SID
-const authToken = process.env.TWILIO_AUTH_TOKEN
+const TwilioManager = require('../utils/TwilioManager')
 
 router.get('/task', (req, res) => {
   res.json({
@@ -15,12 +12,7 @@ router.get('/task', (req, res) => {
 
 router.get('/notify', (req, res) => {
 
-  const client = new twilio(accountSid, authToken)
-  client.messages.create({
-    body: 'Hello from Node',
-    to: '+16318963536',  // Text this number
-    from: '+16314988009' // From a valid Twilio number
-  }, (err, message) => {
+  TwilioManager.sendSMS('6318963536', 'Would this even work?', (err, message) => {
     if (err){
       res.json({
         confirmation: 'fail',
