@@ -12,11 +12,13 @@ module.exports = {
         recipient = '+1'+recipient
       }
 
-      const client = new twilio(process.env.ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+      const client = new twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+      const from = process.env.TWILIO_FROM  // Sent from my registered Twilio number
+
       client.messages.create({
         body: message,
         to: recipient,  // Text this number
-        from: '+16314988009' // From a valid Twilio number (same everytime FOR NOW)
+        from: from // From a valid Twilio number (same everytime FOR NOW)
       }, (err, response) => {
         if (err){
           reject(err)

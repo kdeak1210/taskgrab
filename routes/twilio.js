@@ -13,7 +13,7 @@ router.get('/task', (req, res) => {
 router.get('/notify', (req, res) => {
 
   // Use our manager to send a message from the Twilio # to a recipient
-  TwilioManager.sendSMS('6318963536', 'Would this even work?')
+  TwilioManager.sendSMS('6318963536', 'Testing Heroku refactor')
   .then(message => {
     res.json({
       confirmation: 'success',
