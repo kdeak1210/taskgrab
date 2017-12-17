@@ -21454,7 +21454,7 @@ exports.Home = _Home2.default;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21474,43 +21474,139 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Home = function (_Component) {
-  _inherits(Home, _Component);
+	_inherits(Home, _Component);
 
-  function Home() {
-    _classCallCheck(this, Home);
+	function Home() {
+		_classCallCheck(this, Home);
 
-    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
-  }
+		return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
+	}
 
-  _createClass(Home, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'row' },
-        _react2.default.createElement(
-          'div',
-          { className: 'col-md-2' },
-          _react2.default.createElement(_containers.Categories, null)
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col-md-8' },
-          _react2.default.createElement(_containers.Tasks, null)
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col-md-2' },
-          _react2.default.createElement(_containers.Account, null)
-        )
-      );
-    }
-  }]);
+	_createClass(Home, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ id: 'wrapper' },
+				_react2.default.createElement(
+					'div',
+					{ id: 'main' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'inner' },
+						_react2.default.createElement(
+							'header',
+							{ id: 'header' },
+							_react2.default.createElement(
+								'a',
+								{ href: 'index.html', className: 'logo' },
+								_react2.default.createElement(
+									'strong',
+									null,
+									'Editorial'
+								),
+								' by HTML5 UP'
+							),
+							_react2.default.createElement(
+								'ul',
+								{ className: 'icons' },
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'a',
+										{ href: '#', className: 'icon fa-twitter' },
+										_react2.default.createElement(
+											'span',
+											{ className: 'label' },
+											'Twitter'
+										)
+									)
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'a',
+										{ href: '#', className: 'icon fa-facebook' },
+										_react2.default.createElement(
+											'span',
+											{ className: 'label' },
+											'Facebook'
+										)
+									)
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'a',
+										{ href: '#', className: 'icon fa-snapchat-ghost' },
+										_react2.default.createElement(
+											'span',
+											{ className: 'label' },
+											'Snapchat'
+										)
+									)
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'a',
+										{ href: '#', className: 'icon fa-instagram' },
+										_react2.default.createElement(
+											'span',
+											{ className: 'label' },
+											'Instagram'
+										)
+									)
+								),
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										'a',
+										{ href: '#', className: 'icon fa-medium' },
+										_react2.default.createElement(
+											'span',
+											{ className: 'label' },
+											'Medium'
+										)
+									)
+								)
+							)
+						),
+						_react2.default.createElement(_containers.Tasks, null)
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ id: 'sidebar' },
+					_react2.default.createElement(_containers.Categories, null)
+				)
+			);
+		}
+	}]);
 
-  return Home;
+	return Home;
 }(_react.Component);
 
 exports.default = Home;
+
+// <div classNameName="row">
+
+//   <div classNameName="col-md-2">
+//     <Categories />
+//   </div>
+//   <div classNameName="col-md-8">
+//     <Tasks />
+//   </div>
+//   <div classNameName="col-md-2">
+//     <Account />
+//   </div>
+
+// </div>
 
 /***/ }),
 /* 76 */
@@ -29928,28 +30024,66 @@ var Categories = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'inner' },
         _react2.default.createElement(
-          'h2',
-          null,
-          'Categories'
+          'section',
+          { id: 'search', className: 'alt' },
+          _react2.default.createElement(
+            'form',
+            { method: 'post', action: '#' },
+            _react2.default.createElement('input', { type: 'text', name: 'query', id: 'query', placeholder: 'Search' })
+          )
         ),
         _react2.default.createElement(
-          'ul',
-          null,
-          this.props.tasks.categories == null ? null : this.props.tasks.categories.map(function (category, i) {
+          'nav',
+          { id: 'menu' },
+          _react2.default.createElement(
+            'header',
+            { className: 'major' },
+            _react2.default.createElement(
+              'h2',
+              null,
+              'Categories'
+            )
+          ),
+          _react2.default.createElement(
+            'ul',
+            null,
+            this.props.tasks.categories == null ? null : this.props.tasks.categories.map(function (category, i) {
 
-            var color = category == _this2.props.tasks.selectedCategory ? 'red' : '#333';
-            return _react2.default.createElement(
-              'li',
-              { key: category },
-              _react2.default.createElement(
-                'a',
-                { onClick: _this2.selectCategory.bind(_this2, category), href: '#', style: { color: color } },
-                category
-              )
-            );
-          })
+              var color = category == _this2.props.tasks.selectedCategory ? 'red' : '#333';
+              return _react2.default.createElement(
+                'li',
+                { key: category },
+                _react2.default.createElement(
+                  'a',
+                  { onClick: _this2.selectCategory.bind(_this2, category), href: '#', style: { color: color } },
+                  category
+                )
+              );
+            })
+          )
+        ),
+        _react2.default.createElement(
+          'footer',
+          { id: 'footer' },
+          _react2.default.createElement(
+            'p',
+            { className: 'copyright' },
+            '\xA9 Untitled. All rights reserved. Demo Images: ',
+            _react2.default.createElement(
+              'a',
+              { href: 'https://unsplash.com' },
+              'Unsplash'
+            ),
+            '. Design: ',
+            _react2.default.createElement(
+              'a',
+              { href: 'https://html5up.net' },
+              'HTML5 UP'
+            ),
+            '.'
+          )
         )
       );
     }
@@ -30067,26 +30201,41 @@ var Tasks = function (_Component) {
         'div',
         null,
         _react2.default.createElement(
-          'h2',
-          null,
-          'Tasks ---'
-        ),
-        _react2.default.createElement(
-          'ol',
-          null,
-          taskList == null ? null : taskList.map(function (task, i) {
-            return _react2.default.createElement(
-              'li',
-              { key: task.id },
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/task/' + task.id },
-                task.title,
-                ', ',
-                task.category
-              )
-            );
-          })
+          'section',
+          { id: 'banner' },
+          _react2.default.createElement(
+            'div',
+            { className: 'content' },
+            _react2.default.createElement(
+              'h3',
+              null,
+              'Current Tasks'
+            ),
+            taskList == null ? null : taskList.map(function (task, i) {
+              return _react2.default.createElement(
+                'div',
+                { className: 'box', key: task.id },
+                _react2.default.createElement(
+                  _reactRouterDom.Link,
+                  { to: '/task/' + task.id },
+                  _react2.default.createElement(
+                    'h3',
+                    null,
+                    task.title
+                  )
+                ),
+                _react2.default.createElement(
+                  _reactRouterDom.Link,
+                  { to: '/task/' + task.id },
+                  _react2.default.createElement(
+                    'p',
+                    null,
+                    task.description
+                  )
+                )
+              );
+            })
+          )
         ),
         _react2.default.createElement(_presentation.CreateTask, { onSubmitTask: this.createTask.bind(this) })
       );

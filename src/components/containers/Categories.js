@@ -11,9 +11,20 @@ class Categories extends Component {
   
   render() {
     return(
-      <div>
-        <h2>Categories</h2>
-        <ul>
+
+      <div className="inner">
+
+        <section id="search" className="alt">
+          <form method="post" action="#">
+            <input type="text" name="query" id="query" placeholder="Search" />
+          </form>
+        </section>
+
+        <nav id="menu">
+          <header className="major">
+            <h2>Categories</h2>
+          </header>
+          <ul>
           { (this.props.tasks.categories == null)
             ? null
             : this.props.tasks.categories.map((category, i) => {
@@ -26,13 +37,19 @@ class Categories extends Component {
               )
             })
           }
-        </ul>
+          </ul>
+        </nav>
+        
+        <footer id="footer">
+          <p className="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+        </footer>
+
       </div>
     )
   }
 }
 
-const stateToProps = (state) => {
+const stateToProps = (state) => {  
   return {
     tasks: state.task
   }

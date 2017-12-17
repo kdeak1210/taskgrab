@@ -51,21 +51,32 @@ class Tasks extends Component {
 
     return(
       <div>
-        <h2>Tasks ---</h2>
-        <ol>
-        { (taskList == null)
-          ? null
-          : taskList.map((task, i) => {
-            return (
-              <li key={task.id}>
-                <Link to={`/task/${task.id}`}>
-                  {task.title}, {task.category}
-                </Link>
-              </li>
-            )
-          })
-        }
-        </ol>
+
+        <section id="banner">
+          <div className="content">
+
+            <h3>Current Tasks</h3>
+
+            { (taskList == null)
+              ? null
+              : taskList.map((task, i) => {
+                return (
+                  <div className="box" key={task.id}>
+                    <Link to={`/task/${task.id}`}>
+                      <h3>{task.title}</h3>
+                    </Link>
+
+                    <Link to={`/task/${task.id}`}>
+                      <p>{task.description}</p>
+                    </Link>
+                  </div>
+                )
+              })
+            }
+
+          </div>
+        </section>
+
         <CreateTask onSubmitTask={this.createTask.bind(this)}/>
       </div>
     )
