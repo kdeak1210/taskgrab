@@ -42,6 +42,11 @@ app.use('/api', require('./routes/api'))
 app.use('/twilio', require('./routes/twilio'))
 app.use('/account', require('./routes/account'))
 
+// Catch-All to render the React App on all other routes
+app.get('*', (req, res) => {
+  res.render('index', null)
+})
+
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`)
 })

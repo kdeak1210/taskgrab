@@ -65,7 +65,9 @@ class Task extends Component {
   
   render(){
     const { taskId } = this.props.match.params
+    console.log(taskId)
     const task = this.props.tasks[taskId]
+    console.log(this.props.tasks)
 
     return(
       <div>

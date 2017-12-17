@@ -34862,7 +34862,9 @@ var Task = function (_Component) {
     value: function render() {
       var taskId = this.props.match.params.taskId;
 
+      console.log(taskId);
       var task = this.props.tasks[taskId];
+      console.log(this.props.tasks);
 
       return _react2.default.createElement(
         'div',
