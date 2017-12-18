@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { CreateTask } from '../presentation'
+// import { CreateTask } from '../presentation'
+import { Account } from '../containers'
 import { APIManager } from '../../utils'
 import actions from '../../actions'
 import { connect } from 'react-redux'
@@ -75,9 +76,12 @@ class Tasks extends Component {
             }
 
           </div>
+
+          <Account />
+
         </section>
 
-        <CreateTask onSubmitTask={this.createTask.bind(this)}/>
+        {/*<CreateTask onSubmitTask={this.createTask.bind(this)}/>*/}
       </div>
     )
   }

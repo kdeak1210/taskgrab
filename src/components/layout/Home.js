@@ -20,7 +20,7 @@ class Home extends Component {
 									</ul>
 								</header>
 
-                <Tasks />             
+                <Tasks />
 						</div>
 					</div>
 
