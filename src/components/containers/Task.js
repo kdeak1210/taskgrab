@@ -70,23 +70,30 @@ class Task extends Component {
     console.log(this.props.tasks)
 
     return(
-      <div>
-        Task: { task.title }<br />
-        Description: { task.description }<br />
-        Category: { task.category }<br />
-        Creator: { task.profile.username }<br />
+      <section style={{paddingTop: '24px'}}>
+        <header className="major">
+          <h2 style={{border: 'none', marginBottom: 0}}>{task.title}</h2>
+        </header>
+        <div className="posts">
+          <article style={{background: '#f9f9f9', border: '1px solid #ddd', padding:16}}>
+            <strong>{task.category}</strong><br />
+            <strong>{task.profile.username}</strong><br />
+            <hr />
+            <p>{task.description}</p>
+          </article>       
+        </div>
 
         { (this.props.account.user == null) 
           ? <h3>Please Log in or Register to Reply</h3>
           : <div>
               <h3>Reply</h3>
-              <textarea onChange={this.updateMessage.bind(this)} placeholder="Enter Message to Respond" name="" id="" cols="30" rows="10"></textarea>
+              <textarea onChange={this.updateMessage.bind(this)} placeholder="Enter Message to Respond" cols="30" rows="5"></textarea>
               <br />
               <button onClick={this.submitMessage.bind(this)}>Submit</button>
             </div>
         }
-        
-      </div>
+
+      </section>
     )
   }
 }

@@ -42,7 +42,7 @@ class Account extends Component {
 
   render(){
     return(
-      <div>
+      <div style={{padding: 26}}>
         { (this.props.user == null)
           ? <Authenticate onLogin={this.login} onRegister={this.register}/>
           : <h3>Hello {this.props.user.username}!</h3>
