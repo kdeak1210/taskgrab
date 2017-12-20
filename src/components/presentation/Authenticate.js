@@ -48,8 +48,9 @@ class Authenticate extends Component {
   }
 
   login(){
-    if (this.state.credentials.username.length == 0){
-      swal('Oops...', 'Please enter your username!', 'error')
+    if (this.state.credentials.email.length == 0){
+      console.log(this.state.credentials)
+      swal('Oops...', 'Please enter your email!', 'error')
       return
     }
 
