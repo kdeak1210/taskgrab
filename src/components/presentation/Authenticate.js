@@ -24,12 +24,40 @@ class Authenticate extends Component {
   }
 
   register(){
-    console.log('Register: ' + JSON.stringify(this.state.credentials))
+    if (this.state.credentials.username.length == 0){
+      swal('Oops...', 'Please enter your username!', 'error')
+      return
+    }
+
+    if (this.state.credentials.phone.length == 0){
+      swal('Oops...', 'Please enter your phone!', 'error')
+      return
+    }
+
+    if (this.state.credentials.email.length == 0){
+      swal('Oops...', 'Please enter your email!', 'error')
+      return
+    }
+
+    if (this.state.credentials.password.length == 0){
+      swal('Oops...', 'Please enter your password!', 'error')
+      return
+    }
+
     this.props.onRegister(this.state.credentials)
   }
 
   login(){
-    console.log('Login: ' + JSON.stringify(this.state.credentials))
+    if (this.state.credentials.username.length == 0){
+      swal('Oops...', 'Please enter your username!', 'error')
+      return
+    }
+
+    if (this.state.credentials.password.length == 0){
+      swal('Oops...', 'Please enter your password!', 'error')
+      return
+    }
+    
     this.props.onLogin(this.state.credentials)
   }
 
@@ -48,7 +76,6 @@ class Authenticate extends Component {
         <input onChange={this.updateCredentials.bind(this, 'email')} type="text" placeholder="Email" /><br />
         <input onChange={this.updateCredentials.bind(this, 'password')} type="text" placeholder="Password" /><br />
         <button onClick={this.login.bind(this)}>Login</button>
-
       </div>
     )
   }

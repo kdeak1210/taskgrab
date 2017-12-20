@@ -9,7 +9,8 @@ const path = require('path');
 gulp.task('css', () => {
   return gulp.src(
     [
-      './public/assets/css/main.css'
+      './public/assets/css/main.css',
+      './public/assets/css/sweetalert2.min.css'
     ]
   )
   .pipe(cleanCSS({compatibility: 'ie8'}))
@@ -34,7 +35,8 @@ gulp.task('js', () => {
       './public/assets/js/jquery.min.js',
       './public/assets/js/skel.min.js',
       './public/assets/js/util.js',
-      './public/assets/js/main.js',      
+      './public/assets/js/main.js',
+      './public/assets/js/sweetalert2.min.js',
     ]
   )
   .pipe(gp_concat('gulp-concat.js'))
