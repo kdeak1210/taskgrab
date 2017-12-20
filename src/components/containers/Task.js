@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Authenticate } from '../presentation'
 import actions from '../../actions'
 import { connect } from 'react-redux'
+import { DateHelpers, TextHelpers } from '../../utils'
 
 class Task extends Component {
   constructor(){
@@ -76,8 +77,11 @@ class Task extends Component {
         </header>
         <div className="posts">
           <article style={{background: '#f9f9f9', border: '1px solid #ddd', padding:16}}>
-            <strong>{task.category}</strong><br />
-            <strong>{task.profile.username}</strong><br />
+            <strong>{TextHelpers.capitalize(task.category)}</strong>
+            <br />
+            <strong>{TextHelpers.capitalize(task.profile.username)}</strong>
+            <br />
+            <strong>{ DateHelpers.formatDate(task.timestamp) } </strong>
             <hr />
             <p>{task.description}</p>
           </article>       
