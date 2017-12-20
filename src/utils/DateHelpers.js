@@ -13,8 +13,8 @@ export default {
       <div>
         {
           (within24Hours)
-          ? <Time value={dateOfTask} format="YYYY/MM/DD" relative />
-          : <Time value={dateOfTask} format="YYYY/MM/DD" />
+          ? <Time value={dateOfTask} format="MMM DD, YYYY" relative />
+          : <Time value={dateOfTask} format="MMM DD, YYYY" />
         }
       </div>
     )

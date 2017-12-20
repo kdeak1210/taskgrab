@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import { CreateTask } from '../presentation'
 import { Account } from '../containers'
-import { APIManager } from '../../utils'
+import { APIManager, DateHelpers } from '../../utils'
 import actions from '../../actions'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -70,6 +70,7 @@ class Tasks extends Component {
                     <Link to={`/task/${task.id}`}>
                       <p>{task.description}</p>
                     </Link>
+                    <span>{DateHelpers.formatDate(task.timestamp)}</span>
                   </div>
                 )
               })
