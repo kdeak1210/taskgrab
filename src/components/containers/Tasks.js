@@ -61,16 +61,21 @@ class Tasks extends Component {
             { (taskList == null)
               ? null
               : taskList.map((task, i) => {
+                const username = task.profile.username || 'unknown'
+
                 return (
                   <div className="box" key={task.id}>
                     <Link to={`/task/${task.id}`}>
                       <h3>{task.title}</h3>
                     </Link>
 
+                    <span style={localStyle.taskDetails}>{DateHelpers.formatDate(task.timestamp)}</span>                    
+                    <span style={localStyle.pipe}>|</span>
+                    <span style={localStyle.taskDetails}>{username}</span>
+
                     <Link to={`/task/${task.id}`}>
                       <p>{task.description}</p>
                     </Link>
-                    <span>{DateHelpers.formatDate(task.timestamp)}</span>
                   </div>
                 )
               })
@@ -85,6 +90,16 @@ class Tasks extends Component {
         {/*<CreateTask onSubmitTask={this.createTask.bind(this)}/>*/}
       </div>
     )
+  }
+}
+
+const localStyle = {
+  taskDetails: {
+    float: 'right'
+  },
+  pipe: {
+    float:'right',
+    margin: '0px 12px'
   }
 }
 
