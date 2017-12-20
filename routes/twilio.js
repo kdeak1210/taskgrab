@@ -53,7 +53,9 @@ router.post('/notify', (req, res) => {
 
     // Get their phone number from the returned profile
     const phone = profile.phone
-    const text = 'Someone responded to your task! Here is their reply: \n\n' + req.body.content
+    const { taskClaimer } = req.body
+    const linkToClaimer = `https://taskgrab.herokuapp.com/profile/${taskClaimer}`
+    const text =`${taskClaimer} responded to your task! Here is their reply: \n\n ${req.body.content}  \n\n View ${taskClaimer}'s profile here: ${linkToClaimer}`
 
     return TwilioManager.sendSMS(phone, text)
   })  

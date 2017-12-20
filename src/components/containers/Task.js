@@ -49,7 +49,8 @@ class Task extends Component {
       // Now send a message to the task's creator...
       const params = {
         recipient: creatorId,
-        content: updated.content
+        content: updated.content,
+        taskClaimer: updated.profile.username
       }
       
       return this.props.notifyCreator(params) // Return this to continue chain (it returns a promise)
