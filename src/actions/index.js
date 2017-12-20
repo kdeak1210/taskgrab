@@ -74,6 +74,18 @@ export default {
     }
   },
 
+  fetchMessages: (params) => {
+    return (dispatch) => {
+      return dispatch(getRequest('/api/message', params, constants.MESSAGES_RECEIVED))
+    }
+  },
+
+  // fetchProfile: (params) => {
+  //   return (dispatch) => {
+  //     return dispatch(getRequest('/api/profile', params, constants.PROFILE_RECEIVED))
+  //   }
+  // },
+
   tasksReceived: (tasks) => {
     return {
       type: constants.TASKS_RECEIVED,

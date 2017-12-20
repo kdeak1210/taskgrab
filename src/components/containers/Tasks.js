@@ -71,7 +71,9 @@ class Tasks extends Component {
 
                     <span style={localStyle.taskDetails}>{DateHelpers.formatDate(task.timestamp)}</span>                    
                     <span style={localStyle.pipe}>|</span>
-                    <span style={localStyle.taskDetails}>{username}</span>
+                    <span style={localStyle.taskDetails}>
+                      <Link to={`/profile/${task.profile.id}`}>{username}</Link>
+                    </span>
 
                     <Link to={`/task/${task.id}`}>
                       <p>{task.description}</p>

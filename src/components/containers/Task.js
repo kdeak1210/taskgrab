@@ -16,7 +16,12 @@ class Task extends Component {
   }
 
   componentDidMount(){
-
+    const { taskId } = this.props.match.params    
+    this.props.fetchMessages({task: taskId})
+    .then(result => {
+      console.log(this.props.messages)
+    
+    })
   }
 
   updateMessage(event){
@@ -67,9 +72,8 @@ class Task extends Component {
   
   render(){
     const { taskId } = this.props.match.params
-    console.log(taskId)
     const task = this.props.tasks[taskId]
-    console.log(this.props.tasks)
+    const messages = this.props.messages[taskId] || []
 
     return(
       <section style={{paddingTop: '24px'}}>
@@ -87,6 +91,17 @@ class Task extends Component {
             <p>{task.description}</p>
           </article>       
         </div>
+
+        <h3>Replies</h3>
+        <ol>
+          {
+            messages.map((message, i) => {
+              return(
+                <div key={message.id}>{message.content}</div>
+              )
+            })
+          }
+        </ol>
 
         { (this.props.account.user == null) 
           ? <h3>Please Log in or Register to Reply</h3>
@@ -106,13 +121,15 @@ class Task extends Component {
 const stateToProps = (state) => {
   return {
     account: state.account,
-    tasks: state.task
+    tasks: state.task,
+    messages: state.message
   }
 }
 
 const dispatchToProps = (dispatch) => {
   return {
     submitMessage: (params) => dispatch(actions.submitMessage(params)),
+    fetchMessages: (params) => dispatch(actions.fetchMessages(params)),
     notifyCreator: (params) => dispatch(actions.notifyCreator(params))
   }
 }
