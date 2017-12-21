@@ -85,9 +85,13 @@ class Task extends Component {
           <article style={{background: '#f9f9f9', border: '1px solid #ddd', padding:16}}>
             <strong>{TextHelpers.capitalize(task.category)}</strong>
             <br />
-            <strong>{TextHelpers.capitalize(task.profile.username)}</strong>
+            <strong>
+              <Link to={`/profile/${task.profile.id}`}>
+                {task.profile.username}
+              </Link>
+            </strong>
             <br />
-            <strong>{ DateHelpers.formatDate(task.timestamp) } </strong>
+            <strong>{DateHelpers.formatDate(task.timestamp)} </strong>
             <hr />
             <p>{task.description}</p>
           </article>
