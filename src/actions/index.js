@@ -80,11 +80,11 @@ export default {
     }
   },
 
-  // fetchProfile: (params) => {
-  //   return (dispatch) => {
-  //     return dispatch(getRequest('/api/profile', params, constants.PROFILE_RECEIVED))
-  //   }
-  // },
+  fetchProfileById: (id) => {
+    return (dispatch) => {
+      return dispatch(getRequest(`/api/profile/${id}`, null, constants.PROFILE_RECEIVED))
+    }
+  },
 
   tasksReceived: (tasks) => {
     return {
