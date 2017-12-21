@@ -14,7 +14,7 @@ class App extends Component{
           <Switch>
             <Route exact path="/" component={Home}/>
             <Route path="/task/:taskId" component={ClaimTask} />
-            <Route path="/profile/:username" component={ProfileDetail} />            
+            <Route path="/profile/:profileId" component={ProfileDetail} />            
           </Switch>
         </Router>
       </Provider>

@@ -6,7 +6,7 @@ class Profile extends Component {
     return(
       <div>
         Profile Container
-        This is the profile page for {this.props.match.params.username}
+        This is the profile page for {this.props.match.params.profileId}
       </div>
     )
   }

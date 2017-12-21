@@ -4,6 +4,7 @@ import { Authenticate } from '../presentation'
 import actions from '../../actions'
 import { connect } from 'react-redux'
 import { DateHelpers, TextHelpers } from '../../utils'
+import { Link } from 'react-router-dom'
 
 class Task extends Component {
   constructor(){
@@ -89,15 +90,21 @@ class Task extends Component {
             <strong>{ DateHelpers.formatDate(task.timestamp) } </strong>
             <hr />
             <p>{task.description}</p>
-          </article>       
+          </article>
         </div>
 
         <h3>Replies</h3>
         <ol>
-          {
-            messages.map((message, i) => {
+          { (messages.length == 0)
+            ? <p>Currently no replies for this task. Be the first!</p>
+            : messages.map((message, i) => {
               return(
-                <div key={message.id}>{message.content}</div>
+                <li key={message.id}>
+                  {message.content} by 
+                  <Link to={`/profile/${message.profile.id}`}>
+                    {message.profile.username}
+                  </Link>
+                </li>
               )
             })
           }
