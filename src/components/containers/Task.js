@@ -19,12 +19,26 @@ class Task extends Component {
   componentDidMount(){
     const { taskId } = this.props.match.params
     const { messages } = this.props
-
     if (messages[taskId] != null){
       return
     }
 
+    this.fetchMessages()
+  }
+
+  fetchMessages(){
+    const { taskId } = this.props.match.params    
     this.props.fetchMessages({task: taskId})
+    .then(response => {
+      const { pathname } = this.props.history.location
+
+      if (pathname != `/task/${taskId}`){ // User navigated away, bail out!
+        return
+      }
+      setTimeout(() => {
+        this.fetchMessages()
+      }, 10*1000) // 10 seconds
+    })
     .catch(err => console.log(err))
   }
 
