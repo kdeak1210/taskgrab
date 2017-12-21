@@ -20,12 +20,12 @@ class Task extends Component {
     const { taskId } = this.props.match.params
     const { messages } = this.props
 
-    if (messages[taskId] == null){
-      this.props.fetchMessages({task: taskId})
-      .then(result => {
-      
-      })
+    if (messages[taskId] != null){
+      return
     }
+
+    this.props.fetchMessages({task: taskId})
+    .catch(err => console.log(err))
   }
 
   updateMessage(event){

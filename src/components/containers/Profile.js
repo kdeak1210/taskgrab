@@ -6,17 +6,29 @@ class Profile extends Component {
   
   componentDidMount(){
     const { profileId } = this.props.match.params
-
-    if (this.props.profiles[profileId] == null) {
-      this.props.fetchProfileById(profileId)    
+    if (this.props.profiles[profileId] != null) {
+      return
     }
+
+    this.props.fetchProfileById(profileId)
+    .catch(err => console.log(err))
   }
   
   render(){
+    const { profileId } = this.props.match.params    
+    const profile = this.props.profiles[profileId]
+
     return(
       <div>
-        Profile Container
-        This is the profile page for {this.props.match.params.profileId}
+        { (profile == null) 
+          ? <p>No Profile was found for id: '{profileId}'.</p>
+          : <div>
+              <span>{profile.username}</span><br />
+              <span>{profile.email}</span><br />
+              <span>{profile.phone}</span><br />
+              <span>{profile.timestamp}</span><br />        
+            </div>
+        }
       </div>
     )
   }
