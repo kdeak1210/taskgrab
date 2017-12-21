@@ -17,12 +17,15 @@ class Task extends Component {
   }
 
   componentDidMount(){
-    const { taskId } = this.props.match.params    
-    this.props.fetchMessages({task: taskId})
-    .then(result => {
-      console.log(this.props.messages)
-    
-    })
+    const { taskId } = this.props.match.params
+    const { messages } = this.props
+
+    if (messages[taskId] == null){
+      this.props.fetchMessages({task: taskId})
+      .then(result => {
+      
+      })
+    }
   }
 
   updateMessage(event){
